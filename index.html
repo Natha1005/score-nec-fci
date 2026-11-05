@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Score de NEC y protocolo de manejo en el paciente con cardiopatía congénita</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--tx:#12294d;--mut:#5a6b86;--br:#cfd9e8;--pri:#17407a;--acc:#e8f0fd;
+--c0:#2e7d4f;--c1:#8a7a00;--c2:#c26a00;--c3:#c2410c;--c4:#b3261e;--c5:#6b21a8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#16233b;--tx:#e6edf8;--mut:#9fb0cb;--br:#2b3d5c;--pri:#7fb0ff;--acc:#1c2d4a;--c0:#5fd08a;--c1:#e0cc3d;--c2:#ffa94d;--c3:#ff8a5c;--c4:#ff7b72;--c5:#c58bff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1626;--card:#16233b;--tx:#e6edf8;--mut:#9fb0cb;--br:#2b3d5c;--pri:#7fb0ff;--acc:#1c2d4a;--c0:#5fd08a;--c1:#e0cc3d;--c2:#ffa94d;--c3:#ff8a5c;--c4:#ff7b72;--c5:#c58bff;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
+main{max-width:720px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.3rem;margin:4px 0 2px;color:var(--pri)}
+.sub{color:var(--mut);font-size:.85rem;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:12px;padding:12px;margin-bottom:10px}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
+select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--br);background:var(--bg);color:var(--tx);font-size:.9rem}
+.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border:1px solid var(--br);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.score{font-size:2rem;font-weight:800;color:var(--pri);line-height:1}
+.prog{font-size:.8rem;color:var(--mut);text-align:right}
+.res{border-left:8px solid var(--col,var(--pri))}
+.res h2{margin:0 0 2px;font-size:1.25rem;color:var(--col)}
+.row{padding:8px 0;border-top:1px solid var(--br)}
+.row b{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+.warn{background:var(--acc);border-radius:8px;padding:8px 10px;font-size:.85rem;margin-top:8px}
+.chk{display:flex;gap:10px;align-items:center;font-weight:600}
+.chk input{width:20px;height:20px}
+button{width:100%;padding:11px;border-radius:10px;border:1px solid var(--pri);background:transparent;color:var(--pri);font-weight:700;font-size:.95rem}
+.just{text-align:justify;hyphens:none;-webkit-hyphens:none;overflow-wrap:normal;word-break:normal}
+.foot{font-size:.75rem;color:var(--mut);margin-top:12px}
+</style></head><body><main>
+<h1>Score de NEC y protocolo de manejo en el paciente con cardiopatía congénita</h1>
+<p class="sub">Enterocolitis necrotizante (NEC): clasificación de riesgo e intervenciones (Furlong-Dillard et al., 2025)</p>
+
+<div class="card just"><b>Criterio de activación</b><p style="margin:6px 0 0;font-size:.92rem">Cualquier sospecha de NEC que normalmente haría suspender la alimentación e iniciar estudios (radiografía abdominal, leucocitos/PCR) en pacientes menores de 6 meses. Por ejemplo: deposiciones sanguinolentas, cambio en la circunferencia abdominal >10 %, emesis persistente, etc.</p></div>
+<div class="sticky"><div><div class="score" id="tot">0</div><small>puntos</small></div><div class="prog" id="prog">0 / 12 categorías</div></div>
+<div id="form"></div>
+
+<div class="card"><label class="chk"><input type="checkbox" id="surg"> NEC quirúrgica (intervención quirúrgica indicada)</label></div>
+
+<div id="out"></div>
+<button id="reset">Reiniciar</button>
+<div class="card just"><b style="display:block;text-align:left;margin-bottom:8px;font-size:1rem;color:var(--pri)">Tenga en cuenta</b><p style="margin:0 0 10px;font-size:.88rem"><b>Criterios para reiniciar la alimentación sin fortificar:</b> puntaje ≤4 o mejoría clínica del paciente, siempre que el puntaje no vaya a disminuir a ≤4 por otras razones, o una vez cumplido el plazo recomendado de ayuno/antibióticos.</p><p style="margin:0 0 10px;font-size:.88rem"><b>Reevaluación de puntaje:</b> reevaluar el puntaje cuando se haya cumplido el tiempo de ayuno y, posteriormente, cada 24 horas si no es posible iniciar la alimentación debido al puntaje.<br>*Para los días posteriores, puntuar únicamente los marcadores inflamatorios si continúan aumentando, como +2 puntos.</p><p style="margin:0;font-size:.88rem"><b>Valoración por cirugía pediátrica:</b> solicitar valoración por cirugía en todos los pacientes con puntaje >4.</p></div><p class="foot">Herramienta de apoyo a la decisión. No reemplaza el criterio clínico ni el protocolo institucional vigente. Verifique siempre las indicaciones con el equipo tratante.</p>
+</main>
+<script>
+const CATS=[
+["Pródromo",[["Sin agitación ni inestabilidad de temperatura",0],["Agitación / inestabilidad de temperatura / apnea leve / bradicardia / desaturaciones",1],["Apnea significativa / bradicardia / desaturaciones, fiebre verdadera o hipotermia",2]]],
+["Requerimiento de vasopresores",[["Sin vasopresores",0],["Con vasopresor sin cambios en la dosis",1],["Nuevo o aumentado requerimiento de vasopresores",3]]],
+["Circunferencia abdominal / examen físico",[["Aumento ≤5 % o benigno (sin dolor)",0],["Aumento >10 % o distensión / molestia evidente al examen",2],["Tensa / celulitis leve",3],["Preocupación por hipertensión abdominal / celulitis / masa palpable",4]]],
+["Intolerancia alimentaria",[["Tolera la alimentación sin deposiciones sanguinolentas ni emesis",0],["Aumento de la emesis respecto al valor basal / sangre oculta en heces ×1",1],["Deposición macroscópicamente sanguinolenta",2],["Deposiciones sanguinolentas persistentes",3]]],
+["Hallazgos en radiografía abdominal (según radiología)",[["Sin hallazgos agudos de preocupación",0],["Múltiples asas intestinales dilatadas o abdomen sin gas",1],["Neumatosis posible",2],["Gas venoso portal o neumatosis definitiva",3],["Aire libre",4]]],
+["Hallazgos en ecografía (si se realiza)",[["No realizada / ecografía normal",0],["Ascitis",2],["Absceso",3],["Edema de la pared intestinal / hipoperfusión",4]]],
+["Acidosis (pH / lactato)",[["pH >7,3 Y lactato <2",0],["pH ≤7,3 pero >7,25 O lactato ≥2 pero ≤2,5",1],["pH ≤7,25 pero >7,2 O lactato ≥2,5 pero <5",2],["pH <7,2 O lactato ≥5",3]]],
+["ECMO con niveles normales de anticoagulación",[["No",0],["Sí (agregar 2)",2]]],
+["Recuento de plaquetas",[["Estable, sin cambios",0],["Disminución del 50 % o <100 en las últimas 72 h",2],["Disminución del 75 % o <50 en las últimas 72 h",3]]],
+["Marcadores inflamatorios*",[["Leucocitos ≤15 y/o PCR ≤2",0],["Leucocitos aumentados >15 y/o PCR >2",2]]],
+["NIRS renal",[["Sin cambios",0],["Disminución del 10–19 %",1],["Disminución del 20–49 %",2],["Disminución ≥50 %",3]]],
+["Puntaje STAT",[["STAT 1–2",0],["STAT 3–4",2],["STAT 5 o stent ductal",4]]]
+];
+const LV=[
+{n:"Intolerancia alimentaria",r:"Puntaje <4",c:"--c0",v:"36 horas",a:"50 % de la tasa más recientemente tolerada; avanzar según protocolo.",b:"Ninguno.",i:"Radiografía abdominal diaria durante el tratamiento; radiografía abdominal semanal durante el avance de la alimentación."},
+{n:"Posible NEC / Leve",r:"Puntaje 4–8",c:"--c1",v:"Tratamiento durante 48 horas",a:"50 % de la tasa más recientemente tolerada; si se tolera durante 24 horas, avanzar según protocolo.",b:"Conjunto de órdenes empírico para NEC; enviar hemocultivo.",i:"Radiografía abdominal diaria durante el tratamiento; radiografía abdominal cada 3 días durante la primera semana de avance de la alimentación."},
+{n:"Leve / Moderada",r:"Puntaje 9–12",c:"--c2",v:"Mínimo 48 horas y cada día adicional según el puntaje diario / criterio clínico. *Si se identifica neumatosis verdadera en la radiografía abdominal: mínimo 7 días.",a:"20 ml/kg/día en infusión continua; avanzar según el protocolo existente.",b:"Conjunto de órdenes empírico para NEC; enviar hemocultivo.",i:"Radiografía abdominal dos veces al día durante 48 horas; ecografía si hay deterioro clínico o aumento del puntaje."},
+{n:"Moderada",r:"Puntaje 13–17",c:"--c3",v:"Mínimo 7 días + resolución clínica de los síntomas.",a:"Tasa continua de 20 ml/kg/día y, si se tolera durante 24 horas, avanzar 1 ml/h cada 24 horas. Si se tolera durante 48 horas, puede hacerse la transición a alimentación en bolos al mismo volumen durante 24 horas y luego avanzar según protocolo.",b:"Conjunto de órdenes empírico para NEC; enviar hemocultivo.",i:"Ecografía temprana; radiografía abdominal dos veces al día hasta mejoría clínica."},
+{n:"Grave",r:"Puntaje >18",c:"--c4",v:"Mínimo 10 días.",a:"Tasa continua de 20 ml/kg/día y, si se tolera durante 24 horas, avanzar 1 ml/h cada 24 horas. Si se tolera durante 48 horas, puede hacerse la transición a alimentación en bolos al mismo volumen durante 24 horas y luego avanzar según protocolo.",b:"Conjunto de órdenes empírico para NEC; enviar hemocultivo.",i:"Ecografía temprana; radiografía abdominal dos veces al día hasta mejoría clínica."},
+{n:"Quirúrgica",r:"NEC quirúrgica",c:"--c5",v:"Mínimo 4 días después del control del foco.",a:"Una vez que disminuya el débito del drenaje gástrico y haya evidencia de función intestinal, iniciar alimentación a tasa continua de 20 ml/kg/día y, si se tolera durante 48 horas, puede hacerse la transición a alimentación en bolos al mismo volumen durante 24 horas y luego avanzar según protocolo.",b:"Antibióticos según el conjunto de órdenes empírico para NEC o según el equipo de cirugía; enviar hemocultivo.",i:"Radiografía abdominal en el día posoperatorio 1; radiografía abdominal en el día posoperatorio 4 o antes de iniciar la alimentación, o ante deterioro clínico."}
+];
+const sel=[],F=document.getElementById("form");
+CATS.forEach((c,k)=>{const d=document.createElement("div");d.className="card";
+d.innerHTML=`<label for="s${k}">${k+1}. ${c[0]}</label><select id="s${k}"><option value="">Seleccionar…</option>${c[1].map((o,j)=>`<option value="${j}">${o[0]} (${o[1]} ${o[1]==1?"punto":"puntos"})</option>`).join("")}</select>`;
+F.appendChild(d);sel.push(d.querySelector("select"));d.querySelector("select").onchange=calc});
+document.getElementById("surg").onchange=calc;
+document.getElementById("reset").onclick=()=>{sel.forEach(s=>s.value="");document.getElementById("surg").checked=false;calc();scrollTo({top:0,behavior:"smooth"})};
+function calc(){
+let t=0,n=0;sel.forEach((s,k)=>{if(s.value!==""){t+=CATS[k][1][+s.value][1];n++}});
+document.getElementById("tot").textContent=t;
+document.getElementById("prog").textContent=n+" / 12 categorías";
+const surg=document.getElementById("surg").checked;
+const out=document.getElementById("out");
+if(!surg&&n===0){out.innerHTML="";return}
+const L=surg?LV[5]:t<4?LV[0]:t<=8?LV[1]:t<=12?LV[2]:t<=17?LV[3]:LV[4];
+let w="";
+if(!surg&&n<12)w+=`<div class="warn">Faltan ${12-n} categorías por completar; la clasificación es parcial.</div>`;
+if(!surg&&t===18)w+=`<div class="warn">El puntaje 18 no está definido en la tabla del protocolo (Moderada 13–17, Grave >18). Se muestra Grave por precaución; definir según criterio clínico.</div>`;
+if(L.v.endsWith("…")||L.a.endsWith("…")||L.b.endsWith("…"))w+=`<div class="warn">Parte del texto de este nivel estaba incompleto en la tabla original (…). Complete con el protocolo institucional.</div>`;
+out.innerHTML=`<div class="card res" style="--col:var(${L.c})"><h2>${L.n}</h2><div style="color:var(--mut);font-size:.85rem">${L.r}${surg?"":" · Total: "+t}</div>
+<div class="row"><b>Vigilancia de NEC</b>${L.v}</div>
+<div class="row"><b>Reiniciar alimentación sin fortificar</b>${L.a}</div>
+<div class="row"><b>Antibióticos</b>${L.b}</div>
+<div class="row"><b>Imágenes diagnósticas</b>${L.i}</div>${w}</div>`;
+}
+calc();
+</script></body></html>
